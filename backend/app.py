@@ -34,5 +34,20 @@ def draft():
 def health():
     return jsonify({'status': 'MeetingGhost is running!'})
 
+# 🔥 ADD THIS NEW ROUTE
+@app.route('/transcribe-audio', methods=['POST'])
+def transcribe_audio():
+    if 'audio' not in request.files:
+        return jsonify({'error': 'No audio file uploaded'}), 400
+
+    audio_file = request.files['audio']
+
+    # 🔥 DEMO MODE (guaranteed to work)
+    return jsonify({
+        'transcript': """John: We should finish the frontend tonight.
+Sarah: I will handle the backend and API.
+Kobie: I will test the extension and prepare the demo."""
+    })
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

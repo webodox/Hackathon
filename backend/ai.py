@@ -1,11 +1,7 @@
-import google.generativeai as genai
-import os
+from openai import OpenAI
 import json
 
-
-genai.configure(api_key= "AIzaSyCP_YCfDTwsplbWKP5xbB5TKlb-I28CWZ4")
-
-model = genai.GenerativeModel("gemini-2.0-flash")
+client = OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 def process_transcript(transcript: str) -> dict:
     prompt = f"""You are MeetingGhost, an AI that analyzes meeting transcripts.
@@ -27,8 +23,13 @@ Return ONLY valid JSON in this exact format with no markdown or code blocks:
 TRANSCRIPT:
 {transcript}"""
 
-    response = model.generate_content(prompt)
-    content = response.text.strip()
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.3
+    )
+
+    content = response.choices[0].message.content.strip()
 
     if content.startswith("```"):
         content = content.split("```")[1]
@@ -60,5 +61,10 @@ Write a follow-up email that:
 
 Return ONLY the email text, nothing else."""
 
-    response = model.generate_content(prompt)
-    return response.text.strip()
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.5
+    )
+
+    return response.choices[0].message.content.strip()
