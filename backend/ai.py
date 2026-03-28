@@ -1,6 +1,6 @@
 from openai import OpenAI
 import json
-
+#Will need an API key
 client = OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 def process_transcript(transcript: str) -> dict:
