@@ -1,4 +1,4 @@
-const BACKEND_URL = 'http://localhost:5000';
+const BACKEND_URL = 'http://127.0.0.1:5000';
 
 let meetingData = null;
 
@@ -19,24 +19,27 @@ document.querySelectorAll('.tab').forEach(tab => {
 document.getElementById('btn-grab').addEventListener('click', async () => {
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    if (!tab.url.includes('meet.google.com')) {
+
+    if (!tab.url || !tab.url.includes('meet.google.com')) {
       showError('Please open a Google Meet tab first.');
       return;
     }
-    const results = await chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      func: () => {
-        const captions = document.querySelectorAll('[jsname="tgaKEf"], .iTTPOb');
-        if (captions.length === 0) return null;
-        return Array.from(captions).map(el => el.innerText).join('\n');
+
+    chrome.tabs.sendMessage(tab.id, { action: 'getTranscript' }, (response) => {
+      if (chrome.runtime.lastError) {
+        showError('Could not connect to the Google Meet tab. Refresh the Meet page and try again.');
+        return;
+      }
+
+      const transcript = response?.transcript?.trim();
+
+      if (transcript) {
+        document.getElementById('transcript-input').value = transcript;
+        hideError();
+      } else {
+        showError('No transcript found yet. Make sure captions are enabled and someone has spoken.');
       }
     });
-    const transcript = results[0]?.result;
-    if (transcript) {
-      document.getElementById('transcript-input').value = transcript;
-    } else {
-      showError('No captions found. Make sure captions are enabled in your meeting.');
-    }
   } catch (err) {
     showError('Could not access the meeting tab.');
   }
