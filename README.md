@@ -29,7 +29,7 @@ Click the extenstion icon in Chrome
 Paste your meeting transcript
 Click Analyze Meeting
 Review summary and action items
-Edit the draft email → click Send
+Edit the draft email Then click Send
 Or
 In a google meeting click grab from google meet
 Click Analyze Meeting
