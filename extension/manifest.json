@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "MeetingGhost",
+  "version": "1.0",
+  "description": "AI-powered meeting summarizer. Captures transcripts, summarizes meetings, drafts follow-up emails.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "http://localhost:5000/*",
+    "https://meet.google.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://meet.google.com/*"],
+      "js": ["content.js"]
+    }
+  ]
+}

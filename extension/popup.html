@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MeetingGhost</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- SCREEN 1: Home -->
+  <div id="screen-home" class="screen active">
+    <div class="header">
+      <div class="logo">
+        <span class="ghost-icon">👻</span>
+        <span class="logo-text">MeetingGhost</span>
+      </div>
+      <div class="tagline">Your meetings. Handled.</div>
+    </div>
+
+    <div class="section">
+      <label class="label">Paste your meeting transcript</label>
+      <textarea id="transcript-input" placeholder="Paste transcript here..."></textarea>
+    </div>
+
+    <button class="btn btn-ghost" id="btn-grab">⚡ Grab from Google Meet</button>
+    <button class="btn btn-primary" id="btn-process">✨ Analyze Meeting</button>
+    <div id="error-msg" class="error hidden"></div>
+  </div>
+
+  <!-- SCREEN 2: Loading -->
+  <div id="screen-loading" class="screen">
+    <div class="loading-wrap">
+      <div class="ghost-float">👻</div>
+      <div class="loading-text">Haunting your transcript...</div>
+      <div class="loading-sub">Summarizing · Finding action items · Drafting email</div>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- SCREEN 3: Results -->
+  <div id="screen-results" class="screen">
+    <div class="results-header">
+      <span class="ghost-icon small">👻</span>
+      <span class="logo-text">MeetingGhost</span>
+      <button class="btn-back" id="btn-back">← Back</button>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="summary">Summary</button>
+      <button class="tab" data-tab="email">Email Draft</button>
+    </div>
+
+    <!-- Summary Tab -->
+    <div id="tab-summary" class="tab-content active">
+      <div class="card">
+        <div class="card-label">📋 Summary</div>
+        <div id="result-summary" class="card-text"></div>
+      </div>
+      <div class="card">
+        <div class="card-label">✅ Action Items</div>
+        <ul id="result-actions" class="action-list"></ul>
+      </div>
+      <div class="card">
+        <div class="card-label">🎯 Key Decisions</div>
+        <ul id="result-decisions" class="action-list"></ul>
+      </div>
+      <button class="btn btn-primary" id="btn-go-email">Draft Follow-Up Email →</button>
+    </div>
+
+    <!-- Email Tab -->
+    <div id="tab-email" class="tab-content">
+      <div class="email-label">Review & edit before sending:</div>
+      <div class="email-subject-wrap">
+        <span class="email-subject-tag">Subject</span>
+        <input type="text" id="email-subject" class="email-subject-input" placeholder="Loading subject..." />
+      </div>
+      <textarea id="email-body" class="email-body"></textarea>
+      <div class="email-to-wrap">
+        <label class="label small">To:</label>
+        <input type="text" id="email-to" placeholder="recipient@email.com" class="email-to-input" />
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-ghost" id="btn-copy">📋 Copy</button>
+        <button class="btn btn-primary" id="btn-send">📤 Send Email</button>
+      </div>
+      <div id="send-status" class="send-status hidden"></div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
